@@ -39,7 +39,13 @@ define('OWCS_FILE', __FILE__);
 define('OWCS_DIR', __DIR__);
 
 // Load aside template
-require_once OWCS_DIR . '/views/front/aside.php';
+function owcs_render_aside() {
+    if (!is_product()) return;
+
+    require_once OWCS_DIR . '/views/front/aside.php';
+}
+
+add_action('wp_footer', 'owcs_render_aside');
 
 // Load styles and scripts
 add_action('wp_enqueue_scripts', 'owcs_enqueue_assets');
@@ -58,7 +64,7 @@ function owcs_enqueue_assets() {
         plugins_url('assets/js/script.js', __FILE__),
         array('jquery'),
         OWCS_VERSION,
-        true
+        false
     );
 }
 

@@ -1,15 +1,149 @@
-.owcs-aside {
+.owcs-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0);
+	backdrop-filter: blur(0px);
+	visibility: hidden;
+	opacity: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9998;
+	transition: all 0.3s;
+}
+
+.owcs-backdrop[data-opened="true"] {
+	visibility: visible;
+	opacity: 1;
+	background-color: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(10px);
+}
+
+.owcs-drawer {
 	position: fixed;
 	top: 0;
 	right: -100%;
-	width: 400px;
+	width: 480px;
 	height: 100vh;
 	background: white;
 	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 	transition: right 0.3s ease;
 	z-index: 9999;
+	display: flex;
+	flex-direction: column;
 }
 
-.owcs-aside.active {
+.owcs-backdrop[data-opened="true"] .owcs-drawer {
 	right: 0;
+}
+
+.owcs-drawer .owcs-separator {
+	background-color: #e1e1e1;
+	height: 1px;
+	width: 100%;
+	margin: 10px 0 20px 30px;
+}
+
+/* Drawer Header */
+.owcs-drawer .owcs-drawer-header {
+	padding: 18px;
+	display: flex;
+	gap: 30px;
+}
+
+.owcs-drawer-header #owcs-close-btn {
+	stroke: #7c7c7c;
+	cursor: pointer;
+	transition: all 0.2s;
+	align-self: flex-start;
+	padding-top: 5px;
+}
+
+.owcs-drawer-header #owcs-close-btn:hover {
+	stroke: black;
+}
+
+.owcs-drawer-header h3 {
+	padding-left: 12px;
+	font-size: 24px;
+	line-height: 1.3;
+	margin: 0;
+}
+
+/* Drawer Content */
+.owcs-drawer-content {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+	margin-bottom: 90px;
+}
+
+.owcs-drawer-content h4 {
+	margin: 0;
+	padding: 5px 0 10px 30px;
+	font-size: 20px;
+}
+
+/* Product card */
+.owcs-product-container {
+	padding: 10px 30px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	transition: all 0.3s;
+	cursor: pointer;
+}
+
+.owcs-product-container:hover {
+	background-color: #f7f7f7;
+}
+
+.owcs-product-container img {
+	height: 100px;
+}
+
+.owcs-product-container .owcs-product-content {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+.owcs-product-container .owcs-product-content .owcs-product-title {
+	font-size: 18px;
+	margin: 0;
+}
+
+.owcs-product-container .owcs-product-content .owcs-product-desc {
+	font-size: 15px;
+	margin: 0;
+	color: #7c7c7c;
+}
+
+.owcs-product-container .owcs-product-content .owcs-product-button {
+	font-size: 15px;
+	padding: 10px 20px;
+}
+
+/* Drawer Footer */
+.owcs-drawer-footer {
+	background-color: white;
+	padding: 15px 0;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+	.owcs-drawer {
+		width: 100vw;
+	}
 }
