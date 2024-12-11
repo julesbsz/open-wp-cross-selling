@@ -89,6 +89,10 @@
 }
 
 /* Product card */
+.owcs-product-link {
+	text-decoration: none;
+}
+
 .owcs-product-container {
 	padding: 10px 30px;
 	display: flex;
@@ -104,29 +108,57 @@
 
 .owcs-product-container img {
 	height: 100px;
+	width: 100px;
+	object-fit: cover;
+	object-position: center;
 }
 
 .owcs-product-container .owcs-product-content {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 5px;
 	align-items: flex-start;
 }
 
-.owcs-product-container .owcs-product-content .owcs-product-title {
-	font-size: 18px;
-	margin: 0;
-}
-
-.owcs-product-container .owcs-product-content .owcs-product-desc {
-	font-size: 15px;
+.owcs-product-price,
+.owcs-product-price * {
+	font-size: 16px;
 	margin: 0;
 	color: #7c7c7c;
 }
 
-.owcs-product-container .owcs-product-content .owcs-product-button {
+.owcs-product-title {
+	font-size: 18px;
+	margin: 0;
+}
+
+.owcs-product-desc {
+	font-size: 14px;
+	margin: 0;
+	color: #7c7c7c;
+}
+
+.owcs-product-button {
 	font-size: 15px;
 	padding: 10px 20px;
+}
+
+.owcs-product-button-secondary {
+	font-size: 15px;
+	padding: 0;
+	color: black;
+	text-decoration: underline 1px black;
+	background-color: transparent;
+	transition: all 0.3s;
+}
+
+.owcs-product-button-secondary:hover {
+	color: var(--wp--preset--color--primary);
+}
+
+.owcs-product-button-secondary.loading {
+	opacity: 0.5;
+	pointer-events: none;
 }
 
 /* Drawer Footer */

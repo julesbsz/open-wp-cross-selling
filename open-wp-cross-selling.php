@@ -38,14 +38,16 @@ define('OWCS_SLUG', 'open-wp-cross-selling');
 define('OWCS_FILE', __FILE__);
 define('OWCS_DIR', __DIR__);
 
-// Load aside template
+require_once OWCS_DIR . '/admin/product-data.php';
+
+// Load drawer template
+add_action('wp_footer', 'owcs_render_aside');
 function owcs_render_aside() {
     if (!is_product()) return;
 
     require_once OWCS_DIR . '/views/front/aside.php';
 }
 
-add_action('wp_footer', 'owcs_render_aside');
 
 // Load styles and scripts
 add_action('wp_enqueue_scripts', 'owcs_enqueue_assets');
@@ -62,7 +64,7 @@ function owcs_enqueue_assets() {
     wp_enqueue_script(
         'owcs-script',
         plugins_url('assets/js/script.js', __FILE__),
-        array('jquery'),
+        array('jquery', 'wc-add-to-cart'),
         OWCS_VERSION,
         false
     );
