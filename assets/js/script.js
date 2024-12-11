@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				const viewCartBtn = document.createElement("a");
 				viewCartBtn.href = wc_add_to_cart_params.cart_url;
 				viewCartBtn.className = "wp-element-button owcs-product-button-secondary added";
-				viewCartBtn.textContent = "View cart";
+				viewCartBtn.textContent = owcsTranslations.viewCart;
 				this.replaceWith(viewCartBtn);
 			} catch (error) {
 				console.error("Error:", error);

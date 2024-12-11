@@ -38,6 +38,16 @@ define('OWCS_SLUG', 'open-wp-cross-selling');
 define('OWCS_FILE', __FILE__);
 define('OWCS_DIR', __DIR__);
 
+// Load languages
+function owcs_load_textdomain() {
+    load_plugin_textdomain(
+        'open-wp-cross-selling',
+        false,
+        dirname(plugin_basename(OWCS_FILE)) . '/languages'
+    );
+}
+add_action('init', 'owcs_load_textdomain');
+
 require_once OWCS_DIR . '/admin/product-data.php';
 
 // Load drawer template
@@ -68,10 +78,23 @@ function owcs_enqueue_assets() {
         OWCS_VERSION,
         false
     );
+
+    wp_localize_script('owcs-script', 'owcsTranslations', array(
+        'viewCart' => __('View cart', 'open-wp-cross-selling'),
+    ));
 }
 
 // Add cookie when product is added to cart
-add_action('woocommerce_add_to_cart', 'owcs_set_added_to_cart_cookie');
-function owcs_set_added_to_cart_cookie() {
-    setcookie('owcs_added_to_cart', '1', time() + 60, COOKIEPATH, COOKIE_DOMAIN);
+add_action('woocommerce_add_to_cart', 'owcs_set_added_to_cart_cookie', 10, 2);
+function owcs_set_added_to_cart_cookie($cart_item_key, $product_id) {
+    $enable_modal = get_post_meta($product_id, '_owcs_enable_modal', true);
+    
+    if ($enable_modal === 'yes') {
+        setcookie('owcs_added_to_cart', '1', time() + 60, COOKIEPATH, COOKIE_DOMAIN);
+        
+        $product = wc_get_product($product_id);
+        if ($product) {
+            setcookie('owcs_added_product_name', urlencode($product->get_name()), time() + 60, COOKIEPATH, COOKIE_DOMAIN);
+        }
+    }
 }

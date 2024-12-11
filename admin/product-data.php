@@ -18,7 +18,7 @@ function owcs_add_product_options() {
     $selected_products = get_post_meta($post->ID, '_owcs_modal_products', true);
     ?>
     <p class="form-field">
-        <label for="_owcs_modal_products"><?php _e('Modal products', 'open-wp-cross-selling'); ?></label>
+        <label for="_owcs_modal_products"><?php _e('Drawer products', 'open-wp-cross-selling'); ?></label>
         <select class="wc-product-search" multiple="multiple" style="width: 50%;" 
                 id="_owcs_modal_products" 
                 name="_owcs_modal_products[]" 

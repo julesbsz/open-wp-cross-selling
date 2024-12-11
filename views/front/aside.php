@@ -7,10 +7,22 @@ $modal_products = get_post_meta($product_id, '_owcs_modal_products', true);
 if ($enable_modal !== 'no') {
 ?>
 
-<div class="owcs-backdrop" data-opened="true">
+<div class="owcs-backdrop" data-opened="false">
     <aside id="owcs-drawer" class="owcs-drawer">
         <div class="owcs-drawer-header">
-            <h3><?php esc_html_e('An amazing product has been added to cart', 'open-wp-cross-selling'); ?></h3>
+            <h3>
+            <?php 
+                $added_product_name = isset($_COOKIE['owcs_added_product_name']) ? urldecode($_COOKIE['owcs_added_product_name']) : '';
+                if ($added_product_name) {
+                    echo sprintf(
+                        esc_html__('%s has been added to cart', 'open-wp-cross-selling'),
+                        esc_html($added_product_name)
+                    );
+                } else {
+                    esc_html_e('Product has been added to cart', 'open-wp-cross-selling');
+                }
+            ?>
+            </h3>
             <div id="owcs-close-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </div>
