@@ -47,7 +47,7 @@ if ($enable_modal !== 'no') {
                                 <p class="owcs-product-desc">
                                     <?php 
                                         $description = $product->get_short_description();
-                                        echo wp_trim_words($description, 20, '...'); 
+                                        echo wp_trim_words($description, 10, '...'); 
                                     ?> 
                                 </p>
                                 <button class="wp-element-button owcs-product-button-secondary" data-product-id="<?php echo esc_attr($product_id); ?>" data-nonce="<?php echo wp_create_nonce('wc-ajax-add-to-cart'); ?>">

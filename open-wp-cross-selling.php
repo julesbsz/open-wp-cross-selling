@@ -98,3 +98,16 @@ function owcs_set_added_to_cart_cookie($cart_item_key, $product_id) {
         }
     }
 }
+
+add_filter( 'woocommerce_add_to_cart_redirect', 'custom_redirect_function', 99 );
+function custom_redirect_function($url) {
+    $product_id = ( isset($_REQUEST['add-to-cart']) ) ? intval($_REQUEST['add-to-cart']) : 0;
+    
+    $enable_modal = get_post_meta($product_id, '_owcs_enable_modal', true);
+    
+    if ($enable_modal === 'yes') {
+        return get_permalink( $product_id );
+    } else {
+        return wc_get_checkout_url();
+    }
+}

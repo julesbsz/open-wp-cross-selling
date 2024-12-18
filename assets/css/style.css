@@ -150,10 +150,13 @@
 	text-decoration: underline 1px black;
 	background-color: transparent;
 	transition: all 0.3s;
+	border: none;
 }
 
 .owcs-product-button-secondary:hover {
-	color: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--primary) !important;
+	background-color: transparent !important;
+	border: none;
 }
 
 .owcs-product-button-secondary.loading {
