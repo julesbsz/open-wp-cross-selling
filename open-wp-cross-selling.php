@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Open WP Cross-Selling
  * Plugin URI: https://github.com/julesbsz/open-wp-cross-selling
- * Description: Wordpress plugin that displays a popup with crossed products when adding to cart.
+ * Description: Wordpress plugin that displays a drawer with crossed products when adding to cart.
  * Version: 1.3.0
  * Author: Jules Bousrez
  * Author URI: https://julesbousrez.fr/
