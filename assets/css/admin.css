@@ -1,0 +1,60 @@
+.owcs-create-preset,
+.owcs-list-presets {
+	margin-top: 20px;
+}
+
+.owcs-form {
+	max-width: 800px;
+	background: #fff;
+	padding: 20px;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.owcs-preset-card {
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	margin-bottom: 20px;
+	padding: 20px;
+}
+
+.owcs-preset-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #eee;
+}
+
+.owcs-preset-header h3 {
+	margin: 0;
+	padding: 0;
+}
+
+.owcs-preset-actions {
+	display: flex;
+	gap: 10px;
+}
+
+.owcs-preset-content .select2-container {
+	width: 100% !important;
+	min-width: 400px !important;
+}
+
+.form-table td select {
+	min-width: 400px;
+}
+
+/* Style pour les messages de notification */
+.owcs-notice {
+	margin: 15px 0;
+	padding: 10px 15px;
+	border-left: 4px solid #00a32a;
+	background: #fff;
+}
+
+.owcs-notice.error {
+	border-left-color: #d63638;
+}

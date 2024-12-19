@@ -49,6 +49,7 @@ function owcs_load_textdomain() {
 add_action('init', 'owcs_load_textdomain');
 
 require_once OWCS_DIR . '/admin/product-data.php';
+require_once OWCS_DIR . '/admin/woocommerce-settings.php';
 
 // Load drawer template
 add_action('wp_footer', 'owcs_render_aside');
@@ -111,3 +112,75 @@ function custom_redirect_function($url) {
         return wc_get_checkout_url();
     }
 }
+
+// Ajouter la fonction AJAX pour récupérer les produits du preset
+add_action('wp_ajax_owcs_get_preset_products', 'owcs_get_preset_products');
+function owcs_get_preset_products() {
+    check_ajax_referer('owcs_preset_nonce', 'nonce');
+
+    $preset_id = $_POST['preset_id'];
+    $presets = get_option('owcs_presets', array());
+
+    if (isset($presets[$preset_id])) {
+        wp_send_json_success($presets[$preset_id]['products']);
+    }
+
+    wp_send_json_error();
+}
+
+// Sauvegarder le preset sélectionné et copier ses produits
+add_action('woocommerce_process_product_meta', 'owcs_save_product_preset');
+function owcs_save_product_preset($post_id) {
+    // Sauvegarder le preset sélectionné
+    if (isset($_POST['_owcs_preset'])) {
+        $preset_id = sanitize_text_field($_POST['_owcs_preset']);
+        update_post_meta($post_id, '_owcs_preset', $preset_id);
+
+        // Si un preset est sélectionné, copier ses produits
+        if (!empty($preset_id)) {
+            $presets = get_option('owcs_presets', array());
+            if (isset($presets[$preset_id])) {
+                update_post_meta($post_id, '_owcs_modal_products', $presets[$preset_id]['products']);
+            }
+        }
+    }
+
+    // Si des produits ont été sélectionnés manuellement, ils écrasent ceux du preset
+    if (isset($_POST['_owcs_modal_products'])) {
+        $products = array_map('intval', (array) $_POST['_owcs_modal_products']);
+        update_post_meta($post_id, '_owcs_modal_products', $products);
+    }
+}
+
+// Modifier le JavaScript pour mettre à jour les deux champs
+add_action('admin_footer', 'owcs_preset_script');
+function owcs_preset_script() {
+    if (!isset($_GET['post']) || get_post_type($_GET['post']) !== 'product') return;
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $('#_owcs_preset').on('change', function() {
+            const presetId = $(this).val();
+            if (!presetId) return;
+
+            $.ajax({
+                url: ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'owcs_get_preset_products',
+                    preset_id: presetId,
+                    nonce: '<?php echo wp_create_nonce("owcs_preset_nonce"); ?>'
+                },
+                success: function(response) {
+                    if (response.success && response.data) {
+                        // Mettre à jour le select des produits
+                        const $productSelect = $('#_owcs_modal_products');
+                        $productSelect.val(response.data).trigger('change');
+                    }
+                }
+            });
+        });
+    });
+    </script>
+    <?php
+} 

@@ -1,7 +1,7 @@
 <?php
 $product_id = get_the_ID();
 $enable_modal = get_post_meta($product_id, '_owcs_enable_modal', true);
-$modal_products = get_post_meta($product_id, '_owcs_modal_products', true);
+$modal_products = owcs_get_all_drawer_products($product_id);
 
 // Si le modal n'est pas activé, on ne l'affiche pas
 if ($enable_modal !== 'no') {
