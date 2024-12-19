@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Open WP Cross-Selling\n"
-"POT-Creation-Date: 2024-12-19 12:00+0100\n"
-"PO-Revision-Date: 2024-12-19 12:03+0100\n"
+"POT-Creation-Date: 2024-12-19 13:10+0100\n"
+"PO-Revision-Date: 2024-12-19 13:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -15,8 +15,8 @@ msgstr ""
 "X-Poedit-WPHeader: open-wp-cross-selling.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
-"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
@@ -32,7 +32,7 @@ msgstr "Le préréglage a été enregistré avec succès !"
 msgid "An error occurred. Please try again."
 msgstr "Une erreur est survenue. Veuillez réessayer."
 
-#: includes/class-owcs-front.php:65 views/front/aside.php:66
+#: includes/class-owcs-front.php:65 views/front/aside.php:72
 msgid "View cart"
 msgstr "Voir le panier"
 
@@ -73,49 +73,65 @@ msgstr "Produits supplémentaires"
 msgid "Search for additional products&hellip;"
 msgstr "Rechercher d’autres produits&hellip;"
 
-#: includes/class-owcs-settings.php:33
+#: includes/class-owcs-settings.php:36
 msgid "Cross Selling Drawer"
 msgstr "Drawer de vente croisée"
 
-#: includes/class-owcs-settings.php:47
+#: includes/class-owcs-settings.php:50
 msgid "Create Preset"
 msgstr "Créer un préréglage"
 
-#: includes/class-owcs-settings.php:48 includes/class-owcs-settings.php:115
+#: includes/class-owcs-settings.php:51 includes/class-owcs-settings.php:121
 msgid "Manage Presets"
 msgstr "Gérer les préréglages"
 
-#: includes/class-owcs-settings.php:81
+#: includes/class-owcs-settings.php:52 includes/class-owcs-settings.php:172
+msgid "Settings"
+msgstr "Réglages"
+
+#: includes/class-owcs-settings.php:87
 msgid "Create New Preset"
 msgstr "Créer un nouveau préréglage"
 
-#: includes/class-owcs-settings.php:87
+#: includes/class-owcs-settings.php:93
 msgid "Preset Name"
 msgstr "Nom du préréglage"
 
-#: includes/class-owcs-settings.php:95
+#: includes/class-owcs-settings.php:101
 msgid "Select Products"
 msgstr "Sélectionnez les produits"
 
-#: includes/class-owcs-settings.php:98
+#: includes/class-owcs-settings.php:104
 msgid "Search for a product&hellip;"
 msgstr "Rechercher un produit&hellip;"
 
-#: includes/class-owcs-settings.php:119
+#: includes/class-owcs-settings.php:125
 msgid "No presets found."
 msgstr "Aucun préréglage trouvé."
 
-#: includes/class-owcs-settings.php:127
+#: includes/class-owcs-settings.php:133
 msgid "Delete"
 msgstr "Supprimer"
 
-#: includes/class-owcs-settings.php:133
+#: includes/class-owcs-settings.php:139
 msgid "Search for products&hellip;"
 msgstr "Recherche de produits&hellip;"
 
-#: includes/class-owcs-settings.php:187
+#: includes/class-owcs-settings.php:180
+msgid "Display short product description"
+msgstr "Afficher la description courte du produit"
+
+#: includes/class-owcs-settings.php:188
+msgid "Number of characters to display"
+msgstr "Nombre de caractères à afficher"
+
+#: includes/class-owcs-settings.php:247
 msgid "Preset created successfully"
 msgstr "Préréglage créé avec succès"
+
+#: includes/class-owcs-settings.php:363
+msgid "Settings saved successfully"
+msgstr "Paramètres enregistrés avec succès"
 
 #: views/front/aside.php:18
 #, php-format
@@ -130,7 +146,7 @@ msgstr "Le produit a été ajouté au panier"
 msgid "You might also like..."
 msgstr "Vous pourriez aussi aimer…"
 
-#: views/front/aside.php:54
+#: views/front/aside.php:60
 msgid "Add to cart"
 msgstr "Ajouter au panier"
 
@@ -144,10 +160,10 @@ msgstr "https://github.com/julesbsz/open-wp-cross-selling"
 
 #. Description of the plugin/theme
 msgid ""
-"Wordpress plugin that displays a popup with crossed products when adding to "
+"Wordpress plugin that displays a drawer with crossed products when adding to "
 "cart."
 msgstr ""
-"Plugin Wordpress qui affiche une popup avec les produits croisés lors de "
+"Plugin Wordpress qui affiche un drawer avec des produits croisés lors de "
 "l’ajout au panier."
 
 #. Author of the plugin/theme

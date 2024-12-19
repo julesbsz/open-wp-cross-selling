@@ -21,6 +21,9 @@ class OWCS_Settings {
         add_action('wp_ajax_owcs_delete_preset', array($this, 'delete_preset'));
         add_action('wp_ajax_owcs_save_preset', array($this, 'save_preset'));
         add_action('wp_ajax_owcs_update_preset', array($this, 'update_preset'));
+
+        // AJAX actions for settings
+        add_action('wp_ajax_owcs_save_settings', array($this, 'save_settings'));
     }
 
     /**
@@ -45,7 +48,8 @@ class OWCS_Settings {
 
         $tabs = array(
             'create' => __('Create Preset', 'open-wp-cross-selling'),
-            'list' => __('Manage Presets', 'open-wp-cross-selling')
+            'list' => __('Manage Presets', 'open-wp-cross-selling'),
+            'settings' => __('Settings', 'open-wp-cross-selling')
         );
 
         $i = 0;
@@ -56,7 +60,7 @@ class OWCS_Settings {
                 $tab_id,
                 $active,
                 esc_html($tab_name),
-                ($i == 0 ? ' | ' : '')
+                ($i < count($tabs) - 1 ? ' | ' : '')
             );
             $i++;
         }
@@ -65,9 +69,11 @@ class OWCS_Settings {
 
         if ($current_tab === 'create') {
             $this->render_create_preset_page();
-        } else {
+        } elseif ($current_tab === 'list') {
             $this->render_list_presets_page();
-        }
+        } elseif ($current_tab === 'settings') {
+            $this->render_settings_page();
+        } 
 
         echo '</div>';
     }
@@ -152,6 +158,60 @@ class OWCS_Settings {
                 <?php endif; ?>
             </div>
         </div>
+        <?php
+    }
+
+    /**
+     * Render the settings page.
+     */
+    private function render_settings_page() {
+        $display_short_desc = get_option('owcs_display_short_desc', 'no');
+        $short_desc_max_chars = (int) get_option('owcs_short_desc_max_chars', 100);
+        ?>
+        <div class="owcs-settings">
+            <h2><?php _e('Settings', 'open-wp-cross-selling'); ?></h2>
+
+            <form id="owcs-settings-form" class="owcs-form" method="post" action="">
+                <?php wp_nonce_field('owcs_settings_save', 'owcs_settings_nonce'); ?>
+
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="display_short_desc"><?php _e('Display short product description', 'open-wp-cross-selling'); ?></label>
+                        </th>
+                        <td>
+                            <input type="checkbox" name="display_short_desc" id="display_short_desc" <?php checked($display_short_desc, 'yes'); ?>>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="short_desc_max_chars"><?php _e('Number of characters to display', 'open-wp-cross-selling'); ?></label>
+                        </th>
+                        <td>
+                            <input type="number" name="short_desc_max_chars" id="short_desc_max_chars" min="1" max="100" value="<?php echo esc_attr($short_desc_max_chars); ?>">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                function toggleMaxCharsField() {
+                    if ($('#display_short_desc').is(':checked')) {
+                        $('#short_desc_max_chars').closest('tr').show();
+                    } else {
+                        $('#short_desc_max_chars').closest('tr').hide();
+                    }
+                }
+
+                toggleMaxCharsField();
+
+                $('#display_short_desc').on('change', function() {
+                    toggleMaxCharsField();
+                });
+            });
+        </script>
         <?php
     }
 
@@ -270,6 +330,38 @@ class OWCS_Settings {
             error_log('Error in update_preset: ' . $e->getMessage());
             wp_send_json_error('Error: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * AJAX: Save the settings if the form is submitted.
+     */
+    public function save_settings() {
+        check_ajax_referer('owcs_admin_nonce', 'nonce');
+
+        if (!current_user_can('manage_woocommerce')) {
+            wp_send_json_error('Permission denied');
+            return;
+        }
+
+        $display_short_desc = ($_POST['display_short_desc'] === 'yes') ? 'yes' : 'no';
+        $short_desc_max_chars = isset($_POST['short_desc_max_chars']) ? (int) $_POST['short_desc_max_chars'] : 100;
+
+        if (empty($short_desc_max_chars) && $display_short_desc == "yes") {
+            wp_send_json_error('The short description field (max. characters) is required.');
+            return;
+        }
+
+        if ($short_desc_max_chars < 1 && $display_short_desc == "yes") {
+            wp_send_json_error('The short description cannot be shorter than 1 character.');
+            return;
+        }
+
+        $updated_display = update_option('owcs_display_short_desc', $display_short_desc);
+        $updated_chars = update_option('owcs_short_desc_max_chars', $short_desc_max_chars);
+
+        wp_send_json_success(array(
+            'message' => __('Settings saved successfully', 'open-wp-cross-selling')
+        ));
     }
 
 }

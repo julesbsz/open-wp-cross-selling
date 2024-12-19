@@ -4,7 +4,6 @@ jQuery(document).ready(function ($) {
 		const currentSection = new URLSearchParams(window.location.search).get("section");
 
 		if (currentSection === "create") {
-			// Logique pour créer un nouveau preset
 			const $form = $("#owcs-create-preset-form");
 			const $submitButton = $(this);
 
@@ -45,7 +44,6 @@ jQuery(document).ready(function ($) {
 			const $submitButton = $(this);
 			$submitButton.prop("disabled", true);
 
-			// Récupérer tous les presets et leurs produits
 			const updates = [];
 			$(".owcs-preset-card").each(function () {
 				const $card = $(this);
@@ -71,7 +69,6 @@ jQuery(document).ready(function ($) {
 				);
 			});
 
-			// Attendre que toutes les mises à jour soient terminées
 			Promise.all(updates)
 				.then(function (responses) {
 					console.log("Update responses:", responses);
@@ -89,6 +86,39 @@ jQuery(document).ready(function ($) {
 				.finally(function () {
 					$submitButton.prop("disabled", false);
 				});
+		} else if (currentSection === "settings") {
+			const $submitButton = $(this);
+			$submitButton.prop("disabled", true);
+
+			$.ajax({
+				url: owcsAdmin.ajaxurl,
+				type: "POST",
+				data: {
+					action: "owcs_save_settings",
+					nonce: owcsAdmin.nonce,
+					display_short_desc: $("#display_short_desc").is(":checked") ? "yes" : "no",
+					short_desc_max_chars: $("#short_desc_max_chars").val(),
+				},
+				success: function (response) {
+					console.log("Response:", response);
+					if (response.success) {
+						showNotice(response.data.message);
+					} else {
+						showNotice(response.data || owcsAdmin.strings.error, "error");
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log("Error:", {
+						status: textStatus,
+						error: errorThrown,
+						response: jqXHR.responseText,
+					});
+					showNotice(owcsAdmin.strings.error, "error");
+				},
+				complete: function () {
+					$submitButton.prop("disabled", false);
+				},
+			});
 		}
 	});
 

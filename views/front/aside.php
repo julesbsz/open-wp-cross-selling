@@ -35,6 +35,7 @@ if ($enable_modal !== 'no') {
                 if (!empty($modal_products)) {
                     echo '<h4>' . esc_html__('You might also like...', 'open-wp-cross-selling') . '</h4>';
 
+                    $display_short_desc = get_option('owcs_display_short_desc', 'no');
                     foreach ($modal_products as $product_id) {
                         $product = wc_get_product($product_id);
                         if (!$product) continue;
@@ -44,12 +45,17 @@ if ($enable_modal !== 'no') {
 
                             <div class="owcs-product-content">
                                 <p class="owcs-product-title"><?php echo esc_html($product->get_name()); ?> (<span class="owcs-product-price"><?php echo $product->get_price_html(); ?></span>)</p>
-                                <p class="owcs-product-desc">
-                                    <?php 
-                                        $description = $product->get_short_description();
-                                        echo wp_trim_words($description, 10, '...'); 
-                                    ?> 
-                                </p>
+                                <?php 
+                                    if ($display_short_desc === 'yes') {
+                                        $max_chars = (int) get_option('owcs_short_desc_max_chars', 100);
+                                        $short_desc = wp_strip_all_tags($product->get_short_description());
+                                        if (strlen($short_desc) > $max_chars) {
+                                            $short_desc = substr($short_desc, 0, $max_chars) . '...';
+                                        }
+
+                                        echo '<p class="owcs-product-desc">' . esc_html($short_desc) . '</p>';
+                                    }
+                                ?>
                                 <button class="wp-element-button owcs-product-button-secondary" data-product-id="<?php echo esc_attr($product_id); ?>" data-nonce="<?php echo wp_create_nonce('wc-ajax-add-to-cart'); ?>">
                                     <?php esc_html_e('Add to cart', 'open-wp-cross-selling'); ?>
                                 </button> 
