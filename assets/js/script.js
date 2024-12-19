@@ -45,15 +45,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	// Gestion de l'ajout au panier des produits dans le drawer
 	document.querySelectorAll(".owcs-product-button-secondary").forEach((button) => {
 		button.addEventListener("click", async function (e) {
-			console.log("add to cart button clicked");
-
 			e.preventDefault();
 			e.stopPropagation();
 
 			const productId = this.dataset.productId;
 			const nonce = this.dataset.nonce;
+			var $thisbutton = jQuery(this);
 
-			// Ajouter la classe loading
 			this.classList.add("loading");
 
 			try {
@@ -75,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
 					throw new Error(data.error);
 				}
 
-				// Mettre à jour les fragments du panier
 				if (data.fragments) {
 					jQuery.each(data.fragments, function (key, value) {
 						jQuery(key).replaceWith(value);
@@ -83,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 
 				// Déclencher l'événement pour mettre à jour le mini-panier
-				jQuery(document.body).trigger("added_to_cart", [data.fragments, data.cart_hash]);
+				jQuery(document.body).trigger("added_to_cart", [data.fragments, data.cart_hash, $thisbutton]);
 
 				// Remplacer le bouton par un lien vers le panier
 				const viewCartBtn = document.createElement("a");
@@ -93,9 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
 				this.replaceWith(viewCartBtn);
 			} catch (error) {
 				console.error("Error:", error);
-				// Optionnel : Afficher un message d'erreur à l'utilisateur
+				// showErrorMessage("An error occurred: " + error.message);
 			} finally {
-				// Retirer la classe loading dans tous les cas
 				this.classList.remove("loading");
 			}
 		});
