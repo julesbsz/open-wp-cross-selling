@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
-	$('button[name="save"]').on("click", function (e) {
+	// Use a more specific selector that only targets buttons within OWCS plugin settings tab
+	$('body.woocommerce_page_wc-settings.tab-cross_selling_drawer button[name="save"]').on("click", function (e) {
 		e.preventDefault();
 		const currentSection = new URLSearchParams(window.location.search).get("section");
 
